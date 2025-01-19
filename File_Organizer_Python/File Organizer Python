@@ -1,0 +1,51 @@
+# importing the essential libraries
+import os
+import shutil
+
+# getting files addresses and string the address in a variable
+path = input("Enter Path Where Files are Located: ").strip()
+files = os.listdir(path)
+
+print("Here is a list of all files located in you folder.")
+print(files)
+
+# looping through each file in the folder and moving it to the assigned folder
+for file in files:
+    filename, extension = os.path.splitext(file)
+    extension = extension[1:]
+
+    if os.path.exists(path + '/' + extension):
+        shutil.move(path + '/' + file, path + '/' + extension)
+    else:
+        os.makedirs(path + '/' + extension)
+        shutil.move(path + '/' + file, path + '/' + extension)
+
+
+image_folder = os.path.join(path, 'images')
+documents_folder = os.path.join(path, 'documents')
+others_folder = os.path.join(path , 'others')
+archived_folder = os.path.join(path , "archived files")
+os.makedirs(image_folder, exist_ok=True)
+
+directories = os.listdir(path)
+
+for directory in directories:
+    if directory == "png" or directory == "jpg" or directory == "jpeg" or directory == "gif":
+        dir_path = os.path.join(path, directory)
+        shutil.move(dir_path, image_folder)
+
+    elif directory == "pdf" or directory == "docx" or directory == "txt" or directory == "pptx" or directory == "csv":
+        dir_path = os.path.join(path, directory)
+        shutil.move(dir_path, documents_folder)
+
+    elif directory == "rar" or directory == "zip":
+        dir_path = os.path.join(path, directory)
+        shutil.move(dir_path, archived_folder)
+
+    else:
+        dir_path = os.path.join(path, directory)
+        shutil.move(dir_path, others_folder)
+
+final = os.listdir(path)
+print("Your Files will be sorted to these folders.")
+print(final)
